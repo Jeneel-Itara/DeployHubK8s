@@ -212,7 +212,6 @@ module "ecs_monitoring" {
   eks_metrics_endpoint        = "http://${aws_lb.main.dns_name}/metrics"
   grafana_admin_user          = var.grafana_admin_user
   grafana_admin_password      = var.grafana_admin_password
-  grafana_secret_arn          = ""   # populated after first apply via module output
   tags                        = local.tags
 }
 

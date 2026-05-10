@@ -42,12 +42,6 @@ variable "grafana_admin_password" {
   sensitive = true
 }
 
-variable "grafana_secret_arn" {
-  type        = string
-  description = "ARN of the Secrets Manager secret for Grafana credentials (self-reference, set after creation)"
-  default     = ""
-}
-
 variable "tags" {
   type    = map(string)
   default = {}
