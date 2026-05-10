@@ -118,7 +118,7 @@ if [ ! -f terraform.tfvars ]; then
   sed -i "s/CHANGE_ME_STRONG_PASSWORD/$GRAFANA_PASS/" terraform.tfvars
 fi
 
-terraform init -input=false
+terraform init -input=false -reconfigure
 terraform apply -auto-approve
 
 # Capture outputs
