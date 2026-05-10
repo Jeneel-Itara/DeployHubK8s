@@ -90,7 +90,7 @@ echo ""
 echo "▶ Step 1/7: Bootstrap Terraform remote state..."
 
 # Check if bucket already exists — if so, skip bootstrap entirely
-if aws s3api head-bucket --bucket "deployhub-tfstate" 2>/dev/null; then
+if aws s3api head-bucket --bucket "deployhub-tfstate-jeneel" 2>/dev/null; then
   echo "  ✅ Remote state bucket already exists, skipping bootstrap"
 else
   cd terraform/bootstrap

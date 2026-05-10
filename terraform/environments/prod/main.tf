@@ -13,10 +13,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "deployhub-tfstate"
+    bucket         = "deployhub-tfstate-jeneel"
     key            = "environments/prod/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "deployhub-tfstate-lock"
+    dynamodb_table = "deployhub-tfstate-lock-jeneel"
     encrypt        = true
   }
 }

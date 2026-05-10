@@ -24,8 +24,8 @@ provider "aws" {
 
 # ── S3 bucket for state storage ───────────────────────────────────────────────
 resource "aws_s3_bucket" "tfstate" {
-  bucket        = "deployhub-tfstate"
-  force_destroy = false   # safety: prevent accidental deletion of state
+  bucket        = "deployhub-tfstate-jeneel"
+  force_destroy = false
 
   tags = {
     Project = "deployhub"
@@ -59,9 +59,9 @@ resource "aws_s3_bucket_public_access_block" "tfstate" {
 
 # ── DynamoDB table for state locking ─────────────────────────────────────────
 resource "aws_dynamodb_table" "tfstate_lock" {
-  name         = "deployhub-tfstate-lock"
-  billing_mode = "PAY_PER_REQUEST"   # no capacity planning needed
-  hash_key     = "LockID"            # required key name for Terraform locking
+  name         = "deployhub-tfstate-lock-jeneel"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
 
   attribute {
     name = "LockID"
