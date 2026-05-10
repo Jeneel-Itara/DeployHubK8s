@@ -15,6 +15,17 @@ if [ -f .env.aws ]; then
   export $(grep -v '^#' .env.aws | xargs)
 fi
 
+# Explicitly export credentials to override any instance role in the credential chain
+# (needed when running from an EC2 instance that has its own IAM role attached)
+if [ -f .env.aws ]; then
+  export AWS_ACCESS_KEY_ID=$(grep AWS_ACCESS_KEY_ID .env.aws | cut -d= -f2 | tr -d '[:space:]')
+  export AWS_SECRET_ACCESS_KEY=$(grep AWS_SECRET_ACCESS_KEY .env.aws | cut -d= -f2 | tr -d '[:space:]')
+  export AWS_DEFAULT_REGION=$(grep AWS_DEFAULT_REGION .env.aws | cut -d= -f2 | tr -d '[:space:]')
+fi
+
+# Verify we're using the right account
+echo "  Using AWS account: $(aws sts get-caller-identity --query Account --output text)"
+
 echo "═══════════════════════════════════════════════════"
 echo "  DeployHub — EKS Production Deploy"
 echo "═══════════════════════════════════════════════════"
