@@ -88,10 +88,21 @@ fi
 # ── Step 1: Bootstrap remote state (idempotent) ───────────────────────────────
 echo ""
 echo "▶ Step 1/7: Bootstrap Terraform remote state..."
-cd terraform/bootstrap
-terraform init -input=false
-terraform apply -auto-approve
-cd ../..
+
+# Check if bucket already exists — if so, skip bootstrap entirely
+if aws s3api head-bucket --bucket "deployhub-tfstate" 2>/dev/null; then
+  echo "  ✅ Remote state bucket already exists, skipping bootstrap"
+else
+  cd terraform/bootstrap
+  terraform init -input=false
+
+  # Import existing resources if they exist but aren't in state
+  terraform import aws_s3_bucket.tfstate deployhub-tfstate 2>/dev/null || true
+  terraform import aws_dynamodb_table.tfstate_lock deployhub-tfstate-lock 2>/dev/null || true
+
+  terraform apply -auto-approve
+  cd ../..
+fi
 
 # ── Step 2: Provision infrastructure ─────────────────────────────────────────
 echo ""
